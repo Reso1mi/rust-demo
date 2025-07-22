@@ -30,8 +30,6 @@ fn main() {
     let b = &mut s_multi;
     // println!("a = {a}"); // 第一次创建可变引用到最后一次使用中间不能再创建引用
     println!("b = {b}");
-
-
 }
 
 fn first_word1(s: &String) -> usize {
