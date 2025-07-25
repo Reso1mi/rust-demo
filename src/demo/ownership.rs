@@ -1,4 +1,4 @@
-fn main() {
+pub fn main() {
     let s1 = String::from("hello");
     // 堆上数据，所有权转让，原s1失效
     // let s2 = s1; ❌
@@ -41,7 +41,6 @@ fn main() {
     mod_ref(&mut str4);
     println!("mut str4 = {str4}");
 
-
     // 不允许对同一变量的同时持有多个可变引用
     let mut str5 = String::from("str5");
     let r1 = &mut str5;
@@ -64,7 +63,6 @@ fn main() {
     let p = point();
     println!("p = {p}");
 }
-
 
 // fn point() -> &String {
 //     let s = String::from("point");

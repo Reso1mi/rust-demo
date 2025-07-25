@@ -1,4 +1,4 @@
-fn main() {
+pub fn main() {
     println!("Hello, World");
     another_func(8917, 'c');
     println!("five = {}", five());

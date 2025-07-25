@@ -46,7 +46,7 @@ impl Coin {
     }
 }
 
-fn main() {
+pub fn main() {
     let local = IpAddr::V4(String::from("127.0.0.1"));
 
     dbg!(local);

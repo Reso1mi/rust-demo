@@ -1,4 +1,4 @@
-fn main() {
+pub fn main() {
     let mut s = String::from("first world!");
     let len = first_word1(&s);
     println!("len = {len}");

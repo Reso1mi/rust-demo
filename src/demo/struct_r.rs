@@ -1,8 +1,8 @@
-struct User {
-    active: bool,
-    name: String,
-    email: String,
-    sign_in_count: u64,
+pub struct User {
+    pub active: bool,
+    pub name: String,
+    pub email: String,
+    pub sign_in_count: u64,
 }
 
 struct Point(u32, u32);
@@ -14,7 +14,6 @@ struct Rectangle {
 }
 
 impl Rectangle {
-
     // &self 借用
     fn area(&self, c: u32) -> u32 {
         self.weith * self.heigth * c
@@ -34,7 +33,7 @@ impl Rectangle {
     }
 }
 
-fn main() {
+pub fn main() {
     let mut user1 = User {
         active: true,
         name: String::from("test"),
@@ -63,7 +62,10 @@ fn main() {
     let p1 = Point(1, 2);
     println!("p1 = {}", p1.1);
 
-    let rec = Rectangle{weith:30, heigth:50};
+    let rec = Rectangle {
+        weith: 30,
+        heigth: 50,
+    };
 
     // dbg会获取所有权，使用&
     dbg!(&rec);
@@ -75,7 +77,10 @@ fn main() {
     println!("rec = {rec:#?}");
 
     // 自动解引用
-    let rec2 = &&Rectangle{weith:30, heigth:50};
+    let rec2 = &&Rectangle {
+        weith: 30,
+        heigth: 50,
+    };
     println!("rec = {}", rec2.area(2));
     // 不行，area2是所有权方法，引用没有所有权，不能解引用获取所有权
     // println!("rec = {}", rec2.area2(2));
