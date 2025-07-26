@@ -15,5 +15,6 @@ fn main() {
     // demo::hashmap::main();
     // demo::error_r::main();
     // demo::ownership_2::main();
-    demo::trait_1::main();
+    // demo::trait_1::main();
+    demo::lifetime_1::main();
 }

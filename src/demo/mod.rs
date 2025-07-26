@@ -3,6 +3,7 @@ pub mod function;
 pub mod generics_1;
 pub mod hashmap;
 pub mod hello_world;
+pub mod lifetime_1;
 pub mod match_r;
 pub mod ownership;
 pub mod ownership_2;
