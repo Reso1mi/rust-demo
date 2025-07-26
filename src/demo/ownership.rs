@@ -1,4 +1,3 @@
-#![allow(unused)]
 pub fn main() {
     let s1 = String::from("hello");
     // 堆上数据，所有权转让，原s1失效

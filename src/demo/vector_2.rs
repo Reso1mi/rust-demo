@@ -1,5 +1,3 @@
-#![allow(unused)]
-
 use std::fmt::format;
 pub fn main() {
     let m = String::new();

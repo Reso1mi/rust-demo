@@ -1,4 +1,3 @@
-#![allow(unused)]
 pub fn main() {
     println!("Hello, World");
     another_func(8917, 'c');

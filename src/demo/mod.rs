@@ -1,8 +1,10 @@
+pub mod error_r;
 pub mod function;
 pub mod hashmap;
 pub mod hello_world;
 pub mod match_r;
 pub mod ownership;
+pub mod ownership_2;
 pub mod slice;
 pub mod struct_r;
 pub mod variable;

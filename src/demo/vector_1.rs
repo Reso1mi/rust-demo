@@ -1,4 +1,3 @@
-#![allow(unused)]
 pub fn main() {
     let mut v = Vec::new();
     v.push(1);

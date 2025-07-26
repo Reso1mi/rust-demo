@@ -1,4 +1,3 @@
-#![allow(unused)]
 pub struct User {
     pub active: bool,
     pub name: String,

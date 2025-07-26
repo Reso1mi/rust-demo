@@ -12,5 +12,7 @@ fn main() {
     // let user = User{active: true, name:String::from("123"), email:String::from("123"), sign_in_count:1};
     // demo::vector_1::main();
     // demo::vector_2::main();
-    demo::hashmap::main();
+    // demo::hashmap::main();
+    demo::error_r::main();
+    // demo::ownership_2::main();
 }
