@@ -1,3 +1,4 @@
+#![allow(unused)]
 pub fn main() {
     let mut s = String::from("first world!");
     let len = first_word1(&s);
@@ -15,14 +16,13 @@ pub fn main() {
     let slice = &s[..2];
     println!("slice = {slice}");
 
-    let mut ss  = String::from("ss2 dd");
+    let mut ss = String::from("ss2 dd");
     let slice2 = first_word2(&ss);
     println!("slice2 = {slice2}");
     // 获取可变引用
     ss.clear();
 
     println!("slice2 = {ss}");
-
 
     let mut s_multi = String::from("s_multi");
     let a = &mut s_multi;

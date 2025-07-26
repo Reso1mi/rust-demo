@@ -1,3 +1,4 @@
+#![allow(unused)]
 enum Message {
     Quit,
     Move { x: i32, y: i32 },

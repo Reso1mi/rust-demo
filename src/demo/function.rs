@@ -1,3 +1,4 @@
+#![allow(unused)]
 pub fn main() {
     println!("Hello, World");
     another_func(8917, 'c');
@@ -22,8 +23,6 @@ pub fn main() {
     };
 
     println!("res = {}", res);
-
-    
 }
 
 fn another_func(x: u32, unit_lable: char) {

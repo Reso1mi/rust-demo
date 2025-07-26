@@ -1,7 +1,9 @@
+#![allow(unused)]
 pub struct User {
     pub active: bool,
     pub name: String,
     pub email: String,
+    // username: &str,
     pub sign_in_count: u64,
 }
 
