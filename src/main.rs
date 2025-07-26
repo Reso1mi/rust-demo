@@ -13,6 +13,7 @@ fn main() {
     // demo::vector_1::main();
     // demo::vector_2::main();
     // demo::hashmap::main();
-    demo::error_r::main();
+    // demo::error_r::main();
     // demo::ownership_2::main();
+    demo::trait_1::main();
 }

@@ -15,6 +15,10 @@ struct Rectangle {
 }
 
 impl Rectangle {
+    fn get_w(&self) -> u32 {
+        self.weith
+    }
+
     // &self 借用
     fn area(&self, c: u32) -> u32 {
         self.weith * self.heigth * c
