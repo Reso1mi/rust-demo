@@ -1,4 +1,7 @@
-use std::collections::HashMap;
+use std::{
+    collections::{HashMap, HashSet},
+    i32,
+};
 pub fn main() {
     let mut m = HashMap::new();
     m.insert("k", 1);
@@ -61,4 +64,20 @@ pub fn main() {
         *tv += 100;
     }
     println!("{:?}", count_map);
+
+    let a = if true { 1 } else { 2 };
+}
+
+// lc3487
+pub fn max_sum(nums: Vec<i32>) -> i32 {
+    let mut m = HashSet::new();
+    let mut max = i32::MIN;
+    for v in nums {
+        if v >= 0 {
+            m.insert(v);
+        } else {
+            max = max.max(v);
+        }
+    }
+    if m.is_empty() { max } else { m.iter().sum() }
 }
