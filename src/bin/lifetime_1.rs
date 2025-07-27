@@ -1,3 +1,4 @@
+#![allow(unused)]
 pub fn main() {
     // {
     //     let r;
@@ -109,4 +110,40 @@ impl MyStruct {
     fn combine3<'a>(&'a self, external: &'a str, b: bool) -> &'a str {
         if b { external } else { &self.name }
     }
+}
+
+pub struct User<'a> {
+    pub active: bool,
+    pub name: &'a str,
+    pub email: &'a str,
+    // username: &str,
+    pub sign_in_count: u64,
+}
+
+// 返回值生命周期 ≤ 'a
+pub fn build_user<'a>(email: &'a str, name: &'a str, active: bool) -> User<'a> {
+    User {
+        active,
+        email: email,
+        name: name,
+        sign_in_count: 1,
+    }
+}
+
+fn bulid_user_test() {
+    let email = String::from("email");
+    let name = String::from("name");
+    let u = build_user(&email, &name, true);
+
+    let u2;
+    {
+        let email2 = String::from("email");
+        {
+            let name2 = String::from("name");
+            // 返回的u2生命周期和email2以及name2最短的一致
+            u2 = build_user(&email2, &name2, true);
+        }
+        // println!("{:?}", u2.email);
+    }
+    // println!("{:?}", u2.email);
 }
