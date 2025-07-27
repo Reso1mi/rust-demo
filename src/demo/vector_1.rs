@@ -47,3 +47,28 @@ pub fn main() {
     ];
     dbg!(&v);
 }
+
+// leetcode: 2210
+pub fn count_hill_valley(nums: Vec<i32>) -> i32 {
+    if nums.len() < 3 {
+        return 0;
+    }
+    let mut last = nums[0];
+    let mut ret = 0;
+    for i in 1..nums.len() - 1 {
+        let next = nums[i + 1];
+        if nums[i] == nums[i + 1] {
+            continue;
+        }
+
+        if nums[i] < last && nums[i] < next {
+            ret += 1;
+        }
+
+        if nums[i] > last && nums[i] > next {
+            ret += 1;
+        }
+        last = nums[i];
+    }
+    ret
+}
