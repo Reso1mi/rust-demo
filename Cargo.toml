@@ -3,5 +3,9 @@ name = "rust-demo"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+name = "utils"   # 在代码中通过 `mylib::xxx` 调用
+crate-type = ["rlib"]  # 默认类型（通常无需修改）
+
 [dependencies]
 rand = "0.8.3"
