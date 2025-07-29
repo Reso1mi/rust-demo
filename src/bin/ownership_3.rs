@@ -1,29 +1,65 @@
+use std::{collections::HashMap, hash::Hash};
+
 pub fn main() {
     {
-        struct Str {
-            raw_str: Option<String>,
+        struct StrOpt {
+            value: Option<String>,
         }
 
-        let mut raw = Str {
-            raw_str: Some("123".to_string()),
+        let str_opt = &StrOpt {
+            value: Some("123".to_string()),
         };
 
-        let mut s = &raw;
-
-        let v = match &s.raw_str {
+        let v = match &str_opt.value {
             Some(v) => v,
-            None => &"1".to_string(),
+            None => "1",
+        };
+
+        // if raw.raw_str == Some("123".to_string()) {
+        //     raw.raw_str = None;
+        // }
+    }
+
+    {
+        struct StrOpt {
+            value: Option<String>,
+        }
+
+        let str_opt = StrOpt {
+            value: Some("123".to_string()),
+        };
+
+        let v = match str_opt.value {
+            Some(v) => v,
+            None => "1".to_string(),
         };
     }
+
+
+    {
+        struct StrOpt<'a> {
+            value: Option<&'a str>,
+        }
+
+        let str_opt = StrOpt {
+            value: Some("123"),
+        };
+
+        let v = match str_opt.value {
+            Some(v) => v,
+            None => "1",
+        };
+    }
+
 
     {
         struct Int {
             raw_int: Option<u32>,
         }
 
-        let mut raw = Int { raw_int: Some(123) };
+        let raw = Int { raw_int: Some(123) };
 
-        let mut s = &mut raw;
+        let s = &raw;
 
         let v = match s.raw_int {
             Some(v) => v,
@@ -31,3 +67,58 @@ pub fn main() {
         };
     }
 }
+
+struct Cache<F, K, V>
+where
+    F: Fn(&K) -> V,
+    K: Eq + Hash + Clone,
+{
+    calc: F,
+    result_map: HashMap<K, V>,
+}
+
+impl<F, K, V> Cache<F, K, V>
+where
+    F: Fn(&K) -> V,
+    K: Eq + Hash + Clone,
+{
+    fn new(calc: F) -> Self {
+        Cache {
+            calc: calc,
+            result_map: HashMap::new(),
+        }
+    }
+
+    fn get_value(&mut self, arg: K) -> &V {
+        // 获取了result_map不可变引用
+        let v: Option<&V> = self.result_map.get(&arg);
+        // 整个 match v { ... } 被视为​​单一表达式​​
+        // v 的生命周期会贯穿整个 match 块直到结束
+        // match v {
+        //     Some(v) => v,
+        //     None => {
+        //         let v = (self.calc)(&arg);
+        //         self.result_map.insert(arg.clone(), v);
+        //         todo!()
+        //     }
+        // }
+
+        if v.is_none() {
+            let c = (self.calc)(&arg);
+            // 借用可变引用
+            self.result_map.insert(arg.clone(), c);
+        }
+        //      self（不可变借用）
+        //         |
+        //         v
+        //     self.result_map（Map 的不可变借用）
+        //         |
+        //         v
+        //     Option<&V>（值的引用）
+        // 最后一次使用不可变引用
+        // 这个依赖链意味着：​​只要 v 还在使用，整个链条都视为"被借用"状态​​
+        // v.unwrap();
+        todo!()
+    }
+}
+

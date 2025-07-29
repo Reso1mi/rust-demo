@@ -31,43 +31,19 @@ pub fn main() {
         thread::sleep(Duration::from_secs(2));
         num
     };
-}
 
-struct Cache<F, K, V>
-where
-    F: Fn(&K) -> V,
-    K: Eq + Hash + Clone,
-{
-    calc: F,
-    result_map: HashMap<K, V>,
-}
+    let x = 4;
+    // 普通的函数不能捕获环境中的变量
+    // fn equal_to_x(z: i32) -> bool { z == x }
 
-impl<F, K, V> Cache<F, K, V>
-where
-    F: Fn(&K) -> V,
-    K: Eq + Hash + Clone,
-{
-    fn new(calc: F) -> Self {
-        Cache {
-            calc: calc,
-            result_map: HashMap::new(),
-        }
-    }
+    // Fn trait 闭包函数，获取不可变借用值
+    let eq_x = |num: i32| num == x;
+    let y = 4;
+    assert!(eq_x(y));
 
-    fn get_value(&mut self, arg: K) -> &V {
-        // let mut result_map = &;
-        // match self.result_map.get(&arg) {
-        //     Some(v) => v,
-        //     None => {
-        //         let v = (self.calc)(&arg);
-        //         self.result_map.insert(arg.clone(), v);
-        //         todo!()
-        //     }
-        // }
-        if !self.result_map.contains_key(&arg) {
-            let v = (self.calc)(&arg);
-            self.result_map.insert(arg.clone(), v);
-        }
-        todo!()
-    }
+    let x = vec![1, 2, 3];
+    let equal_to_x = move |z| z == x;
+    // println!("can't use x here: {:?}", x);
+    let y = vec![1, 2, 3];
+    assert!(equal_to_x(y));
 }
