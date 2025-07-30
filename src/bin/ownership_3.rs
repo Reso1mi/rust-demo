@@ -1,4 +1,4 @@
-use std::{collections::HashMap, hash::Hash};
+use std::{collections::HashMap, fmt::Debug, hash::Hash};
 
 pub fn main() {
     {
@@ -35,22 +35,18 @@ pub fn main() {
         };
     }
 
-
     {
         struct StrOpt<'a> {
             value: Option<&'a str>,
         }
 
-        let str_opt = StrOpt {
-            value: Some("123"),
-        };
+        let str_opt = StrOpt { value: Some("123") };
 
         let v = match str_opt.value {
             Some(v) => v,
             None => "1",
         };
     }
-
 
     {
         struct Int {
@@ -81,6 +77,7 @@ impl<F, K, V> Cache<F, K, V>
 where
     F: Fn(&K) -> V,
     K: Eq + Hash + Clone,
+    V: Debug,
 {
     fn new(calc: F) -> Self {
         Cache {
@@ -94,19 +91,22 @@ where
         let v: Option<&V> = self.result_map.get(&arg);
         // 整个 match v { ... } 被视为​​单一表达式​​
         // v 的生命周期会贯穿整个 match 块直到结束
-        // match v {
-        //     Some(v) => v,
-        //     None => {
-        //         let v = (self.calc)(&arg);
-        //         self.result_map.insert(arg.clone(), v);
-        //         todo!()
-        //     }
-        // }
+        match v {
+            Some(v) => v,
+            None => {
+                let z = (self.calc)(&arg);
+                self.result_map.insert(arg, z);
+                // println!("{:?}", v);
+                todo!()
+            }
+        };
+        // v.unwrap();
 
         if v.is_none() {
             let c = (self.calc)(&arg);
             // 借用可变引用
             self.result_map.insert(arg.clone(), c);
+            // todo!()
         }
         //      self（不可变借用）
         //         |
@@ -121,4 +121,3 @@ where
         todo!()
     }
 }
-
