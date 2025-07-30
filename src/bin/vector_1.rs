@@ -5,7 +5,7 @@ pub fn main() {
 
     let v = vec![1, 2, 3, 4, 5];
     println!("v = {:?}", v);
-
+    // for i in v {} 获取所有权
     let third = &v[2];
     println!("third = {third}");
 

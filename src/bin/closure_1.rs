@@ -46,4 +46,12 @@ pub fn main() {
     // println!("can't use x here: {:?}", x);
     let y = vec![1, 2, 3];
     assert!(equal_to_x(y));
+
+    let mut x = vec![1, 2, 3];
+    let mod_x = || print!("{:?}", x); //Fn
+    let mut mod_x = || x.push(1); //FnMut
+    let mod_x = || x; //FnOnce
+
+    // mod_x();
+    // println!("can't use x here: {:?}", x);
 }
