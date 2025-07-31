@@ -17,3 +17,14 @@ fn main() {
     println!("{:?}", loan);
     foo.share();
 }
+
+// b的生命周期大于a
+struct DoubleRef<'a, 'b: 'a, T> {
+    r: &'a T,
+    s: &'b T,
+}
+
+// T的生命周期大于a
+struct Ref<'a, T: 'a> {
+    r: &'a T,
+}

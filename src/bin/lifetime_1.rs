@@ -120,6 +120,14 @@ pub struct User<'a> {
     pub sign_in_count: u64,
 }
 
+// 生命走起消除
+// impl User<'_> {
+impl<'a> User<'a> {
+    fn get_name(&'a self, a: &'a str) -> &'a str {
+        if self.active { self.name } else { a }
+    }
+}
+
 // 返回值生命周期 ≤ 'a
 pub fn build_user<'a>(email: &'a str, name: &'a str, active: bool) -> User<'a> {
     User {

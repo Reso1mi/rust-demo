@@ -27,4 +27,11 @@
 //         a + self.x
 //     }
 // }
-fn main() {}
+
+fn main() {
+    fn fn_elision(x: &i32) -> &i32 {
+        x
+    }
+    // 这种情况下编译器不太能分析出生命周期
+    // let closure_slision = |x: &i32| -> &i32 { x };
+}
