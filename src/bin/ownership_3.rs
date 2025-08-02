@@ -62,6 +62,37 @@ pub fn main() {
             None => 1,
         };
     }
+
+    {
+        struct StrOpt {
+            value: String,
+            test: String,
+        }
+
+        impl StrOpt {
+            fn get_value(&self) -> &String {
+                &self.value
+            }
+        }
+
+        let mut str_opt = StrOpt {
+            value: "123".to_string(),
+            test: "23".to_string(),
+        };
+
+        // 通过&self获取获取不可变引用
+        // let v = str_opt.get_value();
+        // move 获取所有权
+        // let v = str_opt.value;
+        // println!("{:?}", str_opt.value);
+        // 直接获取value不可变引用
+        let v = &str_opt.value;
+
+        str_opt.test.push_str("string");
+
+        // 最后一次使用不可变借用
+        println!("{v}");
+    }
 }
 
 struct Cache<F, K, V>
@@ -95,19 +126,19 @@ where
             Some(v) => v,
             None => {
                 let z = (self.calc)(&arg);
-                self.result_map.insert(arg, z);
+                // self.result_map.insert(arg, z);
                 // println!("{:?}", v);
                 todo!()
             }
-        };
+        }
         // v.unwrap();
 
-        if v.is_none() {
-            let c = (self.calc)(&arg);
-            // 借用可变引用
-            self.result_map.insert(arg.clone(), c);
-            // todo!()
-        }
+        // if v.is_none() {
+        //     let c = (self.calc)(&arg);
+        //     // 借用可变引用
+        //     self.result_map.insert(arg.clone(), c);
+        //     // todo!()
+        // }
         //      self（不可变借用）
         //         |
         //         v
@@ -118,6 +149,6 @@ where
         // 最后一次使用不可变引用
         // 这个依赖链意味着：​​只要 v 还在使用，整个链条都视为"被借用"状态​​
         // v.unwrap();
-        todo!()
+        // todo!()
     }
 }
