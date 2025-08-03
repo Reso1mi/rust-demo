@@ -1,3 +1,5 @@
+use std::ops::Index;
+
 fn main() {
     store_2_heap();
     avoid_stack_copy();
@@ -30,10 +32,16 @@ fn box_layout() {
      * let vec: Vec<Box<i32>>
      * 栈上指针 vec --> 堆上的Box指针 --> 堆内数据
      */
-    let arr_s = vec!["1".to_string(), "2".to_string()];
-    let f = &arr_s[0];
+    let mut arr_s = vec!["1".to_string(), "2".to_string()];
+    let f = arr_s.index(0);
+    // TODO: 深究
+    // arr_s[0]会获取所有权
+    // let f = arr_s[0];
+    // let _ = arr_s[0];
+
     let arr = vec![Box::new(1), Box::new(2)];
     let (first, second) = (&arr[0], &arr[1]);
+    let (first, second) = (arr.index(0), arr.index(1));
     let sum = **first + **second;
     println!("{sum}");
 }

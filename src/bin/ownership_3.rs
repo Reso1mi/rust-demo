@@ -92,6 +92,12 @@ pub fn main() {
 
         // 最后一次使用不可变借用
         println!("{v}");
+
+        let mut str_opt2 = &StrOpt {
+            value: "123".to_string(),
+            test: "23".to_string(),
+        };
+        // str_opt2.value;
     }
 }
 
