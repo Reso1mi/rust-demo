@@ -1,4 +1,4 @@
-use std::ops::Deref;
+use std::ops::{Deref, DerefMut};
 
 #[derive(Debug)]
 struct Person {
@@ -32,6 +32,12 @@ impl<T> Deref for MyBox<T> {
     }
 }
 
+impl<T> DerefMut for MyBox<T> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
 fn main() {
     // &String 自动解引用
     let s = String::from("value");
@@ -44,7 +50,7 @@ fn main() {
     println!("{c}");
     receive_i32(&my_box);
 
-    let my_str_box = MyBox::new(String::from("value"));
+    let mut my_str_box = MyBox::new(String::from("value"));
     let cc = my_str_box.deref();
     // &MyBox -> &String --> &str
     receive_pstr(&my_str_box);
@@ -54,7 +60,13 @@ fn main() {
     let s1: &str = &my_str_box;
     let s1: &String = &my_str_box;
     let s1: String = my_str_box.to_string();
+
+    let s = &mut my_str_box;
+    // DerefMut &mut MyBox<String> --> &mut String
+    receive_mut_box(s);
 }
+
+fn receive_mut_box(s: &mut String) {}
 
 fn receive_pstr(s: &str) {}
 
