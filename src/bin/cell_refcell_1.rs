@@ -8,7 +8,7 @@ fn main() {
     // test_refcell();
     // refcell_inner_mut();
     // rc_refcell();
-    cell_from_mut();
+    // cell_from_mut();
 }
 
 fn cell_from_mut() {
@@ -42,8 +42,8 @@ fn rc_refcell() {
     let b = s.clone();
     let c = s.clone();
     s.borrow_mut().push_str("World");
-    // a b c都指向同一份数据，同时可以使用borrow_mut进行修改
-    println!("{:?} - {:?} - {:?}", a, b, c);
+    // a b c s都指向同一份数据，同时可以使用borrow_mut进行修改
+    println!("{:?} - {:?} - {:?} - {:?}", a, b, c, s);
 }
 
 fn refcell_inner_mut() {
