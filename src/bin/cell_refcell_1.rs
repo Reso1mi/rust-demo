@@ -7,7 +7,7 @@ fn main() {
     // test_cell();
     // test_refcell();
     // refcell_inner_mut();
-    // rc_refcell();
+    rc_refcell();
     // cell_from_mut();
 }
 
@@ -44,6 +44,7 @@ fn rc_refcell() {
     s.borrow_mut().push_str("World");
     // a b c s都指向同一份数据，同时可以使用borrow_mut进行修改
     println!("{:?} - {:?} - {:?} - {:?}", a, b, c, s);
+    println!("rc-count = {}", Rc::strong_count(&s)); // 4
 }
 
 fn refcell_inner_mut() {
