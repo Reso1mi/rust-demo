@@ -1,5 +1,9 @@
 #![allow(unused)]
 
+pub trait HelloMacro {
+    fn hello_macro();
+}
+
 // src/lib.rs
 pub fn greet() {
     println!("Hello from the library!");

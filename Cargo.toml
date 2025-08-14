@@ -10,3 +10,10 @@ crate-type = ["rlib"] # 默认类型（通常无需修改）
 [dependencies]
 rand = "0.8.3"
 lazy_static = "*"
+hello_macro_derive = { path = "./hello_macro_derive" }
+
+[profile.dev]
+incremental = true      # 确保启用增量
+codegen-units = 16      # 增加并行编译单元
+debug = 0               # 最小化调试信息
+overflow-checks = false
