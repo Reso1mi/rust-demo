@@ -60,3 +60,11 @@ fn main() {
 fn use_list(list: &List) {
     println!("{}", list.manager.text);
 }
+
+fn get() -> &'static String {
+    Box::leak(Box::new("123".to_string()))
+}
+
+fn a() {
+    let c = get();
+}
