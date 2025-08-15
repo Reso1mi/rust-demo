@@ -11,6 +11,8 @@ crate-type = ["rlib"] # 默认类型（通常无需修改）
 rand = "0.8.3"
 lazy_static = "*"
 hello_macro_derive = { path = "./hello_macro_derive" }
+futures = "0.3"
+
 
 [profile.dev]
 incremental = true      # 确保启用增量
