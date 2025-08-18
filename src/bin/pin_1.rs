@@ -64,8 +64,9 @@ fn pin_test2() {
 
     // swap(&mut test1.as_ref().a, &mut test1.as_ref().a);
 
-    // let c = test1.get_mut();
-    // swap(test1.get_mut(), test2.get_mut());
+    let mut this1 = unsafe { test1.get_unchecked_mut() }; // 绕过编译器检查
+    let mut this2 = unsafe { test2.get_unchecked_mut() }; // 绕过编译器检查
+    swap(this1, this2);
 }
 
 fn pin_test() {

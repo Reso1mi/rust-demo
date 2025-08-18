@@ -37,7 +37,11 @@ fn deref_test() {
         println!("{}", s);
     }
 
-    let kk = String::from("value");
+    let mut kk = String::from("value");
+    let z = &mut kk;
+
+    let c: String = *z;
+
     // let &s = &kk; // 非法：尝试移动 String
     // let s = *(&kk);
     // 等价于 let s = *(&kk);  // 尝试解引用获取 String 的所有权
