@@ -1,6 +1,7 @@
 use std::{
     marker::PhantomPinned,
     mem::swap,
+    ops::Deref,
     pin::{self, Pin},
 };
 
@@ -9,6 +10,10 @@ fn main() {
     // pin_test();
     pin_test2();
 }
+
+// fn dangerous_deref<T>(r: &T) -> T {
+//     *r // 当 T 未实现 Copy 时被编译器阻止
+// }
 
 fn pin_test2() {
     struct Test {
@@ -32,6 +37,14 @@ fn pin_test2() {
         }
 
         fn a(pin_self: Pin<&Self>) -> &str {
+            // 等价于 &(*(pin_self.deref())).a
+            // Pin<&Self> deref结果是 &Self
+            // &(*(pin_self.deref())).a
+            //             // 等价展开
+            // let temp_ref: &Self = pin_self.deref();   // 步骤1: 获取结构体引用
+            // let temp_val: Self = *temp_ref;           // 步骤2: 解引用结构体
+            // &temp_val.a                              // 返回临时结构体的字段引用
+            // &pin_self.a
             &pin_self.get_ref().a
         }
 
