@@ -1,3 +1,36 @@
+fn test() {
+    // let a = 42;
+    // let b = a; // 复制发生，a 和 b 是独立的两个值
+
+    // println!("{:p}-{}", &a, a);
+    // println!("{:p}-{}", &b, b);
+
+    let a = "123123".to_string();
+
+    let aaa = &a;
+
+    let bbb = aaa;
+    let ccc = aaa;
+
+    println!("{:p}-{}", &bbb, bbb);
+    println!("{:p}-{}", &ccc, ccc);
+
+    let c = move || {
+        println!("{:p}-{}", &bbb, bbb);
+        println!("{:p}-{}", &ccc, ccc);
+    };
+    c();
+
+    let d = || {
+        println!("{:p}-{}", &bbb, bbb);
+        println!("{:p}-{}", &ccc, ccc);
+    };
+    d();
+
+    println!("{:p}-{}", &bbb, bbb);
+    println!("{:p}-{}", &ccc, ccc);
+}
+
 pub fn main() {
     let s1 = String::from("hello");
     // 堆上数据，所有权转让，原s1失效
