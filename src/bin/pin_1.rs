@@ -48,6 +48,37 @@ fn pin_test2() {
             &pin_self.get_ref().a
         }
 
+        // fn a2(pin_self: Pin<&Self>) -> &str {
+        //     // let temp_ref: &Self = Pin::deref(&pin_self);
+        //     // &pin_self是一个临时借用，生命周期其实只在表达式内有效
+        //     // temp_ref是从临时借用&pin_self中重新再借用出来的，生命周期也
+        //     let temp_ref: &Self = pin_self.deref();
+        //     let d = &temp_ref.a;
+        //     d
+        // }
+
+        /**
+        再精炼一点说：
+        pin_self.deref() 返回的 &Self 生命周期绑定的是 pin_self 这个函数参数本身，而函数参数的生命周期只在函数调用期间有效，所以你不能把从这个引用里再借出来的字段引用返回出去。
+        pin_self.get_ref() 返回的 &Self 实际上是从 Pin<&Self> 内部“取出”的那个引用，它的生命周期和 Pin<&Self> 里包裹的 &Self 一致，也就是调用者传进来的那个引用的生命周期，因此可以安全返回。
+        一句话总结：
+        deref() 借的是“参数本身”，get_ref() 拿的是“参数里的引用”，前者受限于函数作用域，后者不受限
+        */
+        // fn a2_1<'a>(pin_self: Pin<&'a Self>) -> &'a str {
+        //     let temp_ref: &Self = Pin::deref(&pin_self); // 类型是 &Self，生命周期是 'a
+        //     &temp_ref.a
+        // }
+
+        fn a3(pin_self: Pin<&Self>) -> &str {
+            let tref: &Self = pin_self.get_ref();
+            &tref.a
+        }
+
+        fn a3_1<'a>(pin_self: Pin<&'a Self>) -> &'a str {
+            let tref: &'a Self = pin_self.get_ref(); // 直接取出 &'a Self
+            &tref.a
+        }
+
         fn b(pin_self: Pin<&Self>) -> &String {
             unsafe { &*pin_self.b }
         }
