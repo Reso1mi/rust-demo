@@ -1,8 +1,10 @@
 use std::marker::PhantomPinned;
-use std::ops::DerefMut;
+use std::ops::{Deref, DerefMut};
 use std::{pin::Pin, ptr::swap};
 
-fn main() {}
+fn main() {
+    println!("123");
+}
 
 fn pin_heap() {
     #[derive(Debug)]
@@ -38,9 +40,15 @@ fn pin_heap() {
     let mut test1 = Test::new("test1");
     let mut test2 = Test::new("test2");
 
+    // let c = test1.deref();
+
     // Pin<Box<Test>> -> Pin<&mut Test>
     let mut test1 = test1.as_mut();
     let mut test2 = test2.as_mut();
+
+    // let d = test1.deref_mut();
+
+    // std::mem::swap(&mut *test1, &mut *test2);
 
     // std::mem::swap(test1.get_mut(), test2.get_mut());
 }
@@ -89,6 +97,7 @@ fn pin_stack() {
         Test::a(test1.as_ref()),
         Test::b(test1.as_ref())
     );
+    // let d = test1.deref_mut();
     // std::mem::swap(test1.get_mut(), test2.get_mut());
     println!(
         "a: {}, b: {}",

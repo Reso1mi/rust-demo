@@ -53,6 +53,7 @@ fn main() {
     let mut my_str_box = MyBox::new(String::from("value"));
     let cc = my_str_box.deref();
     // &MyBox -> &String --> &str
+    // 仅引用类型的实参才会触发自动解引用
     receive_pstr(&my_str_box);
     // 如果没有deref
     receive_pstr(&(*my_str_box)[..]);
