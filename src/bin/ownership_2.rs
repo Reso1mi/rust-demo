@@ -40,7 +40,7 @@ fn deref_test() {
     let mut kk = String::from("value");
     let z = &mut kk;
 
-    let c: String = *z;
+    // let c: String = *z;
 
     // let &s = &kk; // 非法：尝试移动 String
     // let s = *(&kk);
