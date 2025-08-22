@@ -13,6 +13,10 @@ lazy_static = "*"
 hello_macro_derive = { path = "./hello_macro_derive" }
 futures = "0.3"
 
+[dependencies.async-std]
+version = "1.6"
+features = ["attributes"]
+
 
 [profile.dev]
 incremental = true      # 确保启用增量
