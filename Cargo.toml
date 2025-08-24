@@ -12,6 +12,7 @@ rand = "0.8.3"
 lazy_static = "*"
 hello_macro_derive = { path = "./hello_macro_derive" }
 futures = "0.3"
+trpl = "0.2.0"
 
 [dependencies.async-std]
 version = "1.6"
