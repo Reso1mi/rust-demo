@@ -4,6 +4,9 @@ use std::{
     time::Duration,
 };
 
+use futures::{StreamExt, stream::FuturesUnordered};
+use trpl::{Either, StreamExt};
+
 fn test1() {
     trpl::run(async {
         let f1 = async {};
@@ -33,6 +36,13 @@ fn test2() {
         let f3 = pin!(async {});
         // 和上面不是同一个类型
         let c = pin!(async { true });
+
+        // let fs: FuturesUnordered<Pin<&mut dyn Future<Output = ()>>> = FuturesUnordered::new();
+        // fs.push(f1);
+        // fs.push(f2);
+        // fs.push(f3);
+        // fs.push(c);
+        // fs.for_each_concurrent(limit, f)
 
         // trpl::join!(f1, f2, f3);
 
@@ -115,7 +125,29 @@ fn test_yidld() {
     })
 }
 
+async fn my_timeout<F: Future>(f: F, d: Duration) -> Result<F::Output, Duration> {
+    match trpl::race(f, trpl::sleep(d)).await {
+        Either::Left(left) => Ok(left),
+        Either::Right(_) => Err(d),
+    }
+}
+
+fn test_future_timeout() {
+    trpl::run(async {
+        let slow = async {
+            trpl::sleep(Duration::from_secs(10)).await;
+            "I finished!"
+        };
+
+        match my_timeout(slow, Duration::from_secs(2)).await {
+            Ok(msg) => println!("Succeeded {msg}"),
+            Err(duration) => println!("Fail after {}", duration.as_secs()),
+        }
+    })
+}
+
 fn main() {
     // test3_race();
-    test_yidld();
+    // test_yidld();
+    test_future_timeout();
 }
