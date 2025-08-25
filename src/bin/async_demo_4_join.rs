@@ -5,7 +5,7 @@ use std::{
 };
 
 use futures::{StreamExt, stream::FuturesUnordered};
-use trpl::{Either, StreamExt};
+use trpl::Either;
 
 fn test1() {
     trpl::run(async {
