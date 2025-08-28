@@ -1,5 +1,13 @@
 #![allow(unused)]
 
+use std::{
+    sync::{
+        Arc, Mutex,
+        mpsc::{self, SendError},
+    },
+    thread,
+};
+
 pub trait HelloMacro {
     fn hello_macro();
 }
@@ -47,3 +55,69 @@ mod tests {
         // println!("{:?}", u2.email);
     }
 }
+
+#[derive(Debug)]
+pub struct ServerError {
+    message: String,
+}
+
+impl<T> From<SendError<T>> for ServerError {
+    fn from(value: SendError<T>) -> Self {
+        ServerError {
+            message: value.to_string(),
+        }
+    }
+}
+
+// 线程池实现
+pub struct ThreadPool {
+    workers: Vec<Worker>,
+    sender: mpsc::Sender<Job>,
+}
+
+impl ThreadPool {
+    pub fn new(size: usize) -> ThreadPool {
+        assert!(size > 0);
+
+        let (sender, receiver) = mpsc::channel();
+        // 安全共享，Arc允许多个线程同时持有，Mutex保证同时只能有一个Worker
+        let receiver = Arc::new(Mutex::new(receiver));
+        let mut workers = Vec::with_capacity(size);
+        for i in 0..size {
+            workers.push(Worker::new(i, receiver.clone()));
+        }
+        ThreadPool { workers, sender }
+    }
+
+    pub fn execute<F>(&self, f: F) -> Result<(), ServerError>
+    where
+        F: FnOnce() + Send + 'static,
+    {
+        let job = Box::new(f);
+        self.sender.send(job)?;
+        Ok(())
+    }
+}
+
+struct Worker {
+    id: usize,
+    thread: thread::JoinHandle<()>,
+}
+
+impl Worker {
+    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+        let thread = thread::spawn(move || {
+            loop {
+                let job = receiver.lock().unwrap().recv().unwrap();
+                println!("Worker {id} receive job. executing");
+                job();
+            }
+        });
+        Worker {
+            id: id,
+            thread: thread,
+        }
+    }
+}
+
+type Job = Box<dyn FnOnce() + Send + 'static>;
