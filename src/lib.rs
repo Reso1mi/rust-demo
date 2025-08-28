@@ -75,6 +75,15 @@ pub struct ThreadPool {
     sender: mpsc::Sender<Job>,
 }
 
+impl Drop for ThreadPool {
+    fn drop(&mut self) {
+        for worker in self.workers.drain(..) {
+            println!("Shutdown worker {}", worker.id);
+            worker.thread.join().unwrap();
+        }
+    }
+}
+
 impl ThreadPool {
     pub fn new(size: usize) -> ThreadPool {
         assert!(size > 0);
@@ -108,7 +117,15 @@ impl Worker {
     fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
         let thread = thread::spawn(move || {
             loop {
-                let job = receiver.lock().unwrap().recv().unwrap();
+                // lock
+                let job = match receiver.lock() {
+                    Ok(receiver) => match receiver.recv() {
+                        Ok(job) => job,
+                        Err(e) => panic!("receive error: {}", e),
+                    },
+                    Err(e) => panic!("lock error: {}", e),
+                };
+                // unlock
                 println!("Worker {id} receive job. executing");
                 job();
             }
