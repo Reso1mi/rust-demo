@@ -51,6 +51,8 @@ impl Stream for Interval {
             return Poll::Ready(None);
         }
 
+        println!("stream poll next");
+
         match Pin::new(&mut self.delay).poll(cx) {
             Poll::Ready(_) => {
                 let when = self.delay.when + Duration::from_millis(10);
@@ -68,7 +70,7 @@ async fn main() {
     let mut interval = Interval {
         rem: 3,
         delay: Delay {
-            when: Instant::now() + Duration::from_secs(5),
+            when: Instant::now(),
         },
     };
 
