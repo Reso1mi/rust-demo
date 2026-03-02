@@ -179,6 +179,12 @@ impl Deref for PoolInstance {
     }
 }
 
+impl AsRef<dyn Pool + 'static> for PoolInstance {
+    fn as_ref(&self) -> &(dyn Pool + 'static) {
+        &**self
+    }
+}
+
 // 5. 一个接收 &dyn Pool 的普通函数
 fn encode_swap_in(pool: &dyn Pool) {
     println!("Pool address: {}", pool.get_address());
@@ -197,5 +203,5 @@ fn main() {
     // --- 测试 2：函数参数传递 ---
     // ❌ 编译报错！
     // error[E0277]: the trait bound `PoolInstance: Pool` is not satisfied
-    // encode_swap_in(pool_ref);
+    encode_swap_in(pool_ref.as_ref());
 }
